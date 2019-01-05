@@ -8,7 +8,7 @@ from keras.utils import np_utils
 from keras import backend as K
 import numpy as np
 import argparse
-import cv2
+# import cv2
 import matplotlib.pyplot as plt
 
 # construct the argument parser and parse the arguments
@@ -87,7 +87,7 @@ model.compile(loss="categorical_crossentropy", optimizer=opt,
 # pre-existing model
 if args["load_model"] < 0:
     print("[INFO] training...")
-    history = model.fit(trainData, trainLabels, batch_size=128, epochs=1,
+    history = model.fit(trainData, trainLabels, batch_size=128, epochs=20,
               verbose=1)
 
     print(history.history.keys())
@@ -113,31 +113,31 @@ if args["save_model"] > 0:
     model.save_weights(args["weights"], overwrite=True)
 
 # randomly select a few testing digits
-for i in np.random.choice(np.arange(0, len(testLabels)), size=(10,)):
-    # classify the digit
-    probs = model.predict(testData[np.newaxis, i])
-    prediction = probs.argmax(axis=1)
-
-    # extract the image from the testData if using "channels_first"
-    # ordering
-    if K.image_data_format() == "channels_first":
-        image = (testData[i][0] * 255).astype("uint8")
-
-    # otherwise we are using "channels_last" ordering
-    else:
-        image = (testData[i] * 255).astype("uint8")
-
-    # merge the channels into one image
-    image = cv2.merge([image] * 3)
-
-    # resize the image from a 28 x 28 image to a 96 x 96 image so we
-    # can better see it
-    image = cv2.resize(image, (96, 96), interpolation=cv2.INTER_LINEAR)
-
-    # show the image and prediction
-    cv2.putText(image, str(prediction[0]), (5, 20),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 255, 0), 2)
-    print("[INFO] Predicted: {}, Actual: {}".format(prediction[0],
-                                                    np.argmax(testLabels[i])))
-    cv2.imshow("Digit", image)
-    cv2.waitKey(0)
+# for i in np.random.choice(np.arange(0, len(testLabels)), size=(10,)):
+#     # classify the digit
+#     probs = model.predict(testData[np.newaxis, i])
+#     prediction = probs.argmax(axis=1)
+#
+#     # extract the image from the testData if using "channels_first"
+#     # ordering
+#     if K.image_data_format() == "channels_first":
+#         image = (testData[i][0] * 255).astype("uint8")
+#
+#     # otherwise we are using "channels_last" ordering
+#     else:
+#         image = (testData[i] * 255).astype("uint8")
+#
+#     # merge the channels into one image
+#     image = cv2.merge([image] * 3)
+#
+#     # resize the image from a 28 x 28 image to a 96 x 96 image so we
+#     # can better see it
+#     image = cv2.resize(image, (96, 96), interpolation=cv2.INTER_LINEAR)
+#
+#     # show the image and prediction
+#     cv2.putText(image, str(prediction[0]), (5, 20),
+#                 cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 255, 0), 2)
+#     print("[INFO] Predicted: {}, Actual: {}".format(prediction[0],
+#                                                     np.argmax(testLabels[i])))
+#     cv2.imshow("Digit", image)
+#     cv2.waitKey(0)
