@@ -77,7 +77,7 @@ testLabels = np_utils.to_categorical(testLabels, 10)
 # initialize the optimizer and model
 print("[INFO] compiling model...")
 opt = SGD(lr=0.01)
-model = LeNet.build(numChannels=1, imgRows=28, imgCols=28,
+model = AlexNet.build(numChannels=1, imgRows=28, imgCols=28,
                     numClasses=10,
                     weightsPath=args["weights"] if args["load_model"] > 0 else None)
 model.compile(loss="categorical_crossentropy", optimizer=opt,
