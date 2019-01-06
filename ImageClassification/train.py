@@ -1,6 +1,7 @@
 # import the necessary packages
 from imagesearch.cnn.networks.lenet import LeNet
 from imagesearch.cnn.networks.alexnet import AlexNet
+from imagesearch.cnn.networks.hannet import HanNet
 from sklearn.model_selection import train_test_split
 from keras.datasets import mnist
 from keras.optimizers import SGD
@@ -77,7 +78,7 @@ testLabels = np_utils.to_categorical(testLabels, 10)
 # initialize the optimizer and model
 print("[INFO] compiling model...")
 opt = SGD(lr=0.01)
-model = AlexNet.build(numChannels=1, imgRows=28, imgCols=28,
+model = HanNet.build(numChannels=1, imgRows=28, imgCols=28,
                     numClasses=10,
                     weightsPath=args["weights"] if args["load_model"] > 0 else None)
 model.compile(loss="categorical_crossentropy", optimizer=opt,
