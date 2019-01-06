@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e56aa5d0-cc5d-4c81-aa53-107ad53621bc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/alexnet_weights.hdf5" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/lenet_weights.hdf5" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -66,8 +67,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/train.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="12" lean-forward="true" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
+            <state relative-caret-position="135">
+              <caret line="116" column="26" lean-forward="true" selection-start-line="116" selection-start-column="26" selection-end-line="116" selection-end-column="26" />
+              <folding>
+                <element signature="e#32#80#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -76,7 +80,7 @@
         <entry file="file://$PROJECT_DIR$/imagesearch/cnn/networks/lenet.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="164">
-              <caret line="44" column="14" lean-forward="true" selection-end-line="52" />
+              <caret line="44" column="14" selection-end-line="52" />
             </state>
           </provider>
         </entry>
@@ -287,7 +291,7 @@
     <entry file="file://$PROJECT_DIR$/imagesearch/cnn/networks/lenet.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="164">
-          <caret line="44" column="14" lean-forward="true" selection-end-line="52" />
+          <caret line="44" column="14" selection-end-line="52" />
         </state>
       </provider>
     </entry>
@@ -300,8 +304,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/train.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="12" lean-forward="true" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
+        <state relative-caret-position="135">
+          <caret line="116" column="26" lean-forward="true" selection-start-line="116" selection-start-column="26" selection-end-line="116" selection-end-column="26" />
+          <folding>
+            <element signature="e#32#80#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
