@@ -8,6 +8,9 @@ from keras.layers.core import Dense
 from keras import backend as K
 
 
+# Step 2: Write two CNN models...............................
+
+
 class LeNet:
     @staticmethod
     def build(numChannels, imgRows, imgCols, numClasses,
@@ -20,22 +23,23 @@ class LeNet:
         if K.image_data_format() == "channels_first":
             inputShape = (numChannels, imgRows, imgCols)
 
-        # define the first set of CONV => ACTIVATION => POOL layers
+        # First convolution, activation, pooling layers.
         model.add(Conv2D(20, 5, padding="same",
                         input_shape=inputShape))
         model.add(Activation(activation))
         model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
-        # define the second set of CONV => ACTIVATION => POOL layers
+
+        # Second convolution, activation, pooling layers.
         model.add(Conv2D(50, 5, padding="same"))
         model.add(Activation(activation))
         model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 
-        # define the first FC => ACTIVATION layers
+        # First fully connection and activation layers
         model.add(Flatten())
         model.add(Dense(500))
         model.add(Activation(activation))
 
-        # define the second FC layer
+        # Second fully connection layer
         model.add(Dense(numClasses))
 
         # lastly, define the soft-max classifier

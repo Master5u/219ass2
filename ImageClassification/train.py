@@ -2,7 +2,6 @@
 from imagesearch.cnn.networks.lenet import LeNet
 from imagesearch.cnn.networks.alexnet import AlexNet
 from imagesearch.cnn.networks.hannet import HanNet
-from sklearn.model_selection import train_test_split
 from keras.datasets import mnist
 from keras.optimizers import SGD
 from keras.utils import np_utils
@@ -11,7 +10,30 @@ import numpy as np
 import argparse
 import cv2
 import matplotlib.pyplot as plt
+from collections import Counter
 
+
+#
+# Here are three kind of cnn-networks
+######################
+network1 = LeNet
+network2 = AlexNet
+network3 = HanNet
+#######################
+#
+# you can change networks here!
+# the program will run current_network
+# if you want to use HanNet, change to: Current_network = network3
+#
+
+#########################
+#
+Current_network = network1
+#
+##########################
+
+
+# Step 1: Loading Data..............................................................
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-s", "--save-model", type=int, default=-1,
@@ -22,44 +44,40 @@ ap.add_argument("-w", "--weights", type=str,
                 help="(optional) path to weights file")
 args = vars(ap.parse_args())
 
-# grab the MNIST dataset (if this is your first time running this
-# script, the download may take a minute -- the 55MB MNIST dataset
-# will be downloaded)
+# get the MNIST dataset
 print("[INFO] downloading MNIST...")
 ((trainData, trainLabels), (testData, testLabels)) = mnist.load_data()
 
+# print dataset information
 print("Training data shape: ", trainData.shape)
 print("Training labels shape: ", trainLabels.shape)
 print("Test data shape", testData.shape)
 print("Test labels shape", testLabels.shape)
+print("Count number: ", Counter(trainLabels))
 
-
-print(np.unique(trainLabels, return_counts=True))
-#.....................................................
+# show some data
 plt.figure(facecolor='white')
-
 plt.subplots_adjust(wspace=0.5, hspace=0.5)
-
 for i in range(25):
     plt.subplot(5, 5, i + 1)
     plt.imshow(trainData[i], cmap="gray")
     plt.title("label %d" % trainLabels[i])
     plt.axis("off")
-
 plt.show()
 
+# Step 2: in another .py file
+
+#.............................................................................
 
 
+# Step 3: Train your CNN models................................................
 
-# if we are using "channels first" ordering, then reshape the
-# design matrix such that the matrix is:
-# num_samples x depth x rows x columns
+# if we are using "channels first" ordering, then reshape the data
 if K.image_data_format() == "channels_first":
     trainData = trainData.reshape((trainData.shape[0], 1, 28, 28))
     testData = testData.reshape((testData.shape[0], 1, 28, 28))
 
-# otherwise, we are using "channels last" ordering, so the design
-# matrix shape should be: num_samples x rows x columns x depth
+# otherwise, we are using "channels last" ordering
 else:
     trainData = trainData.reshape((trainData.shape[0], 28, 28, 1))
     testData = testData.reshape((testData.shape[0], 28, 28, 1))
@@ -68,29 +86,28 @@ else:
 trainData = trainData.astype("float32") / 255.0
 testData = testData.astype("float32") / 255.0
 
-# transform the training and testing labels into vectors in the
-# range [0, classes] -- this generates a vector for each label,
-# where the index of the label is set to `1` and all other entries
-# to `0`; in the case of MNIST, there are 10 class labels
+# transform the training and testing labels into vectors
 trainLabels = np_utils.to_categorical(trainLabels, 10)
 testLabels = np_utils.to_categorical(testLabels, 10)
 
 # initialize the optimizer and model
 print("[INFO] compiling model...")
 opt = SGD(lr=0.01)
-model = HanNet.build(numChannels=1, imgRows=28, imgCols=28,
+
+# you can change network on the top of the code
+model = Current_network.build(numChannels=1, imgRows=28, imgCols=28,
                     numClasses=10,
                     weightsPath=args["weights"] if args["load_model"] > 0 else None)
 model.compile(loss="categorical_crossentropy", optimizer=opt,
               metrics=["accuracy"])
 
-# only train and evaluate the model if we *are not* loading a
-# pre-existing model
+# only train and evaluate the model if we are not loading a pre-existing model
 if args["load_model"] < 0:
     print("[INFO] training...")
     history = model.fit(trainData, trainLabels, batch_size=128, epochs=20,
               verbose=1)
 
+    # show a table about accuracy and loss
     print(history.history.keys())
     # summarize history for accuracy
     plt.plot(history.history['loss'])
@@ -112,7 +129,10 @@ if args["load_model"] < 0:
 if args["save_model"] > 0:
     print("[INFO] dumping weights to file...")
     model.save_weights(args["weights"], overwrite=True)
+#.............................................................................
 
+
+# Step 4: Predict with Trained Model..............................................
 # randomly select a few testing digits
 for i in np.random.choice(np.arange(0, len(testLabels)), size=(10,)):
     # classify the digit
@@ -131,8 +151,7 @@ for i in np.random.choice(np.arange(0, len(testLabels)), size=(10,)):
     # merge the channels into one image
     image = cv2.merge([image] * 3)
 
-    # resize the image from a 28 x 28 image to a 96 x 96 image so we
-    # can better see it
+    # resize the image from a 28 x 28 image to a 96 x 96 image so we can better see it
     image = cv2.resize(image, (96, 96), interpolation=cv2.INTER_LINEAR)
 
     # show the image and prediction
